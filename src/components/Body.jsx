@@ -1,48 +1,79 @@
 import RestaurentCard from "./RestaurentCard";
 //import resList from "./utils/mockData";
 import { useState, useEffect } from "react";
+import Shimmer from "./Shimmer";
 
 const Body = () => {
-  const [topRatedRes, setTopRatedRes] = useState([]);
+  const [listOfRestaurents, setListOfRestaurents] = useState([]);
+  const [filteredRestaurent, setFilteredRestaurent] = useState([]);
+  const [searchText, setSearchText] = useState("");
+
   useEffect(() => {
     fetchData();
-  });
+  }, []);
 
   const fetchData = async () => {
     const data = await fetch(
-      "https://www.swiggy.com/dapi/restaurants/list/v5?lat=28.5900637&lng=77.08878279999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
+      "/api/dapi/restaurants/list/v5?lat=28.5900637&lng=77.08878279999999&is-seo-homepage-enabled=true&page_type=DESKTOP_WEB_LISTING"
     );
 
     const json = await data.json();
-    setTopRatedRes(
-      json.data.cards[4].card.card.gridElements.infoWithStyle.restaurants
+    setListOfRestaurents(
+      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
-    console.log(
-      json.data.cards[4].card.card.gridElements.infoWithStyle.restaurants
+
+    setFilteredRestaurent(
+      json?.data?.cards[4]?.card?.card?.gridElements?.infoWithStyle?.restaurants
     );
     console.log(json);
   };
 
-  return (
+  return listOfRestaurents === 0 ? (
+    <Shimmer />
+  ) : (
     <div id="bodyMain">
       <div className="d-flex align-items-center justify-content-between">
         <h2 className="text-left">
           Restaurants with online food delivery in Delhi
         </h2>
-        <button
-          className="filter-rating"
-          onClick={() => {
-            const filteredList = topRatedRes.filter(
-              (res) => res.avgRating > 4.3
-            );
-            setTopRatedRes(filteredList);
-          }}>
-          Top Rated Restaurent
-        </button>
+        <div className="d-flex">
+          <div className="search d-flex">
+            <input
+              type="text"
+              id="search"
+              value={searchText}
+              onChange={(e) => {
+                setSearchText(e.target.value);
+              }}
+            />
+            <button
+              onClick={() =>
+                setFilteredRestaurent(
+                  listOfRestaurents.filter((res) =>
+                    res.info.name
+                      .toLowerCase()
+                      .includes(searchText.toLowerCase())
+                  )
+                )
+              }>
+              Search
+            </button>
+          </div>
+          <button
+            className="filter-rating"
+            onClick={() => {
+              const topRatedRestaurent = listOfRestaurents.filter(
+                (res) => res?.info?.avgRating > 4.3
+              );
+              setFilteredRestaurent(topRatedRestaurent);
+            }}>
+            Top Rated Restaurent
+          </button>
+        </div>
       </div>
       <div className="res-card-container">
-        {topRatedRes.map((restaurent) => (
-          <RestaurentCard key={restaurent.id} resData={restaurent} />
+        {filteredRestaurent.map((restaurent) => (
+          <RestaurentCard key={restaurent.info.id} resData={restaurent} />
         ))}
       </div>
     </div>
