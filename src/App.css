@@ -1,7 +1,11 @@
 #bodyMain {
   max-width: 1280px;
   margin: 0 auto;
-  text-align: center;
+}
+
+.container-box {
+  max-width: 1280px;
+  margin: 0 auto;
 }
 
 header {
@@ -70,13 +74,14 @@ nav ul li a:hover {
   border-radius: 8px;
   overflow: hidden;
   width: calc(25% - 8px);
+  color: inherit !important;
 }
 
 .text-left {
   text-align: left;
 }
 
-.restaurent-card > div {
+.restaurent-card > div > div {
   padding: 10px;
 }
 
@@ -85,7 +90,7 @@ nav ul li a:hover {
   margin-bottom: 10px;
 }
 
-.restaurent-card > img {
+.restaurent-card img {
   min-height: 250px;
   max-height: 250px;
   object-fit: cover;
@@ -144,4 +149,33 @@ input#search {
 
 .search button {
   border-radius: 0 0.25rem 0.25rem 0;
+}
+
+.item-box {
+  border-bottom: 1px solid #ff5d0d;
+  padding-bottom: 20px;
+  margin-bottom: 20px;
+}
+
+.item-box:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+  margin-bottom: 0;
+}
+
+.item-image {
+  max-width: 150px;
+}
+
+.item-image img {
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.item-info {
+  padding-right: 40px;
+}
+
+.item-info h4 {
+  margin-bottom: 10px;
 }

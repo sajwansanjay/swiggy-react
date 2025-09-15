@@ -53,6 +53,28 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
+.error-page {
+  min-height: 100vh;
+  max-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.error-page h2 {
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.error-page p {
+  margin: 0;
+}
+
+.error-link {
+  margin-top: 20px;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
